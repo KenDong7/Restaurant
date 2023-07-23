@@ -1,15 +1,21 @@
 html {
     height: 100%;
+    font-size: 16px;
+    font-family: "Lucida Console", "Courier New", monospace;
   }
   
+  h1{
+    font-size: 3.5rem;
+  }
   body {
     height: 100%;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
     display: grid;
     justify-items: center;
     align-items: center;
-    background-color: #3a3a3a;
+    background-color: black;
+    background-image: url("pictures/bg.jpg");
+    
   }
   
   #main-holder {
@@ -25,7 +31,7 @@ html {
   
   #login-error-msg-holder {
     width: 100%;
-    height: 100%;
+    height: 30%;
     display: grid;
     justify-items: center;
     align-items: center;
@@ -36,7 +42,7 @@ html {
     text-align: center;
     margin: 0;
     padding: 5px;
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: bold;
     color: #8a0000;
     border: 1px solid #8a0000;
@@ -53,6 +59,7 @@ html {
     display: grid;
     justify-items: center;
     align-items: center;
+    
   }
   
   .login-form-field::placeholder {
@@ -65,7 +72,8 @@ html {
     margin-bottom: 10px;
     border-radius: 3px;
     outline: none;
-    padding: 0px 0px 5px 5px;
+    padding: 5px 5px 5px 5px;
+    font-size: 1.5rem;
   }
   
   #login-form-submit {

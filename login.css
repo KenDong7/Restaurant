@@ -1,0 +1,39 @@
+html {
+    height: 100%;
+    font-size: 16px;
+    font-family: "Lucida Console", "Courier New", monospace;
+  }
+
+body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: black;
+}
+
+h1 {
+  color: white;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  height: 100%;
+}
+
+.square {
+  max-height: 50vh; /* Set a maximum height to fit within one page */
+  margin-left: 15vh;
+  margin-right: 15vh;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.square img {
+  max-width: 100%;
+  max-height: 80%;
+  
+}
