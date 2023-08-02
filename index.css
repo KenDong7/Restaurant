@@ -18,9 +18,9 @@ html {
     
   }
   
-  #main-holder {
-    width: 50%;
-    height: 70%;
+  .main-holder {
+    width: 100vh;
+    height: 70vh;
     display: grid;
     justify-items: center;
     align-items: center;
@@ -76,7 +76,7 @@ html {
     font-size: 1.5rem;
   }
   
-  #login-form-submit {
+  input[type=submit] {
     width: 100%;
     padding: 7px;
     border: none;
@@ -87,3 +87,32 @@ html {
     cursor: pointer;
     outline: none;
   }
+
+  #salary{
+    width: 10%;
+  }
+
+  input {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #add {
+    width: 45%;
+  }
+
+  #address {
+    width: 65%;
+  }
+  
+  #name {
+    width: 22%;
+  }
+
+  fieldset {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+ }
+
+ 

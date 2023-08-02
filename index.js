@@ -7,8 +7,8 @@ loginButton.addEventListener("click", (e) => {
     const username = loginForm.username.value;
     const password = loginForm.password.value;
 
-    if (username === "test" && password === "test") {
-        location.href = "login.html"
+    if (username === "guest" && password === "guest") {
+        location.href = "login"
     } else {
         loginErrorMsg.style.opacity = 1;
     }

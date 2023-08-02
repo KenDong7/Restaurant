@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css">
+	<title>Add Employee</title>
+</head>
+
+<body>
+    <div class="main-holder" id="add">
+        <h1>Add Employee</h1>
+        <form action="http://localhost:3000/apply" method="post" onsubmit="return confirm('Are you sure you want to submit?');">
+            <fieldset>
+                <label><strong>Name: </strong><input id="name" name="name" placeholder="Enter Name"></label>
+                <label><strong>Phone Number: </strong><input name="phone" pattern="[0-9]{10}" placeholder="9999999999"></label>
+                <br><br>
+                <label><strong>Address: </strong><input name="address" id="address" placeholder="Enter Address"></label>
+                <br><br>
+                <label><strong>Join Date: </strong><input type="date" name="date"></label>
+                
+                <label id="pos" for="position"><strong>Position</strong></label>
+                <select name="position">
+                  <option value="server">Server</option>
+                  <option value="cashier">Cashier</option>
+                  <option value="host">Host</option>
+                  <option value="chef">Chef</option>
+                  <option value="manager">Manager</option>
+                </select>
+                <label id="sal"><strong>Salary: </strong><input id="salary" type="number" name="salary" placeholder="$"></label>
+        
+            </fieldset>
+            
+            <br>
+            
+            <input type="submit" value="Submit Information"/>
+            <hr>
+        </form>
+        <a href="/login">HOME</a>
+    </div>
+    </body>
+    
+</html>

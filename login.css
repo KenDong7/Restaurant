@@ -35,5 +35,12 @@ h1 {
 .square img {
   max-width: 100%;
   max-height: 80%;
-  
 }
+
+a:visited {
+  color: white;
+}
+
+a {
+  color: white;
+ }
