@@ -3,7 +3,7 @@ const http = require('http');
 const bodyParser = require("body-parser");
 const path = require('path');
 const ejs = require('ejs');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ObjectId,ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
@@ -38,11 +38,10 @@ process.stdin.on('readable', () => {
     }
 });
 
-app.set("views", path.resolve(__dirname, ""));
+app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname, ''))); 
-
+app.use(express.static(path.join(__dirname, ""))); 
 
 
 app.get("/", (request, response) => { 
@@ -69,14 +68,60 @@ app.post("/apply", async (request, response) => {
     try {
         await client.connect();
         await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).insertOne(applicant);
+    	response.render("login");
+	} catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+});
+
+app.get("/remove", async (request, response) => { 
+	let table = ``
+	let filter = {};
+	try {
+        await client.connect();
+        const cursor = await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find(filter);
+        const result = await cursor.toArray();
+        result.forEach(employee => table += 
+            `<tr>
+                <td><input type="checkbox" name="cb" value="${employee["_id"]}"></td>
+                <td>${employee["name"]}</td>
+                <td>${employee["position"]}</td>
+                <td>${employee["phone"]}</td>
+                <td>${employee["address"]}</td>
+              </tr>`);
+        let variable = {table: table};
+		response.render("remove", variable);
     } catch (e) {
         console.error(e);
     } finally {
         await client.close();
-		response.render("login");
     }
 });
 
-app.get("/remove", (request, response) => { 
-	response.render("remove");
+app.post("/remove", async (request, response) => { 
+	try {
+        await client.connect();
+		let idArray = request.body.cb;
+		if (idArray !== undefined && Array.isArray(idArray)) {
+			let objectIds = idArray.map(id => new ObjectId(id));
+			result = await client.db(databaseAndCollection.db)
+			.collection(databaseAndCollection.collection)
+			.deleteMany({ _id: { $in: objectIds } });
+		} else if (idArray !== undefined) {
+			let objectId = new ObjectId(idArray);
+			result = await client.db(databaseAndCollection.db)
+        		.collection(databaseAndCollection.collection)
+        		.deleteOne({ _id: objectId });
+		}
+		response.render("login");
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+	
 });

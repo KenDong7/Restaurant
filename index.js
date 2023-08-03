@@ -13,3 +13,18 @@ loginButton.addEventListener("click", (e) => {
         loginErrorMsg.style.opacity = 1;
     }
 })
+
+function selects(){  
+    var ele = document.getElementsByName('cb');  
+    for(var i=0; i<ele.length; i++){  
+        if(ele[i].type=='checkbox')  
+            ele[i].checked=true;  
+    }  
+}  
+function deSelect(){  
+    var ele = document.getElementsByName('cb');  
+    for(var i=0; i<ele.length; i++){  
+        if(ele[i].type=='checkbox')  
+            ele[i].checked=false;  
+    } 
+}
