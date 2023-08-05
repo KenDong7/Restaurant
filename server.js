@@ -3,13 +3,14 @@ const http = require('http');
 const bodyParser = require("body-parser");
 const path = require('path');
 const ejs = require('ejs');
-const { MongoClient, ObjectId,ServerApiVersion } = require('mongodb');
+const { MongoClient, ObjectId, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const databaseAndCollection = {db: "Restaurant", collection: "guest"};
+
 const uri = `mongodb+srv://${userName}:${password}@cluster0.lxrteir.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, ""))); 
 
 
+
 app.get("/", (request, response) => { 
 	response.render("index"); 
 });
@@ -56,7 +58,7 @@ app.get("/add", (request, response) => {
 	response.render("add");
 });
 
-app.post("/apply", async (request, response) => { 
+app.post("/add", async (request, response) => { 
     const applicant = { 
 		name: request.body.name,
 		phone : request.body.phone,
@@ -67,6 +69,10 @@ app.post("/apply", async (request, response) => {
 	  };
     try {
         await client.connect();
+		const id = await client.db(databaseAndCollection.db).collection("counter").findOneAndUpdate(
+			{ "_id" : "counter" },
+			{ $inc: { "count" : 1 } });
+		applicant.id = id.value.count;
         await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).insertOne(applicant);
     	response.render("login");
 	} catch (e) {
@@ -87,7 +93,8 @@ app.get("/remove", async (request, response) => {
         const result = await cursor.toArray();
         result.forEach(employee => table += 
             `<tr>
-                <td><input type="checkbox" name="cb" value="${employee["_id"]}"></td>
+                <td><input type="checkbox" name="cb" value="${employee["id"]}"></td>
+				<td>${employee["id"]}</td>
                 <td>${employee["name"]}</td>
                 <td>${employee["position"]}</td>
                 <td>${employee["phone"]}</td>
@@ -107,15 +114,15 @@ app.post("/remove", async (request, response) => {
         await client.connect();
 		let idArray = request.body.cb;
 		if (idArray !== undefined && Array.isArray(idArray)) {
-			let objectIds = idArray.map(id => new ObjectId(id));
+			idArray.map(id => parseInt(id));
 			result = await client.db(databaseAndCollection.db)
 			.collection(databaseAndCollection.collection)
-			.deleteMany({ _id: { $in: objectIds } });
+			.deleteMany({ id: { $in: idArray } });
 		} else if (idArray !== undefined) {
-			let objectId = new ObjectId(idArray);
+			idArray = parseInt(idArray);
 			result = await client.db(databaseAndCollection.db)
         		.collection(databaseAndCollection.collection)
-        		.deleteOne({ _id: objectId });
+        		.deleteOne({ id: idArray });
 		}
 		response.render("login");
     } catch (e) {
@@ -123,5 +130,30 @@ app.post("/remove", async (request, response) => {
     } finally {
         await client.close();
     }
-	
+});
+
+app.get("/database", async (request, response) => { 
+	let table = ``
+	let filter = {};
+	try {
+        await client.connect();
+        const cursor = await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find(filter);
+        const result = await cursor.toArray();
+        result.forEach(employee => table += 
+            `<tr>
+                <td>${employee["_id"]}</td>
+                <td>${employee["name"]}</td>
+                <td>${employee["position"]}</td>
+                <td>${employee["phone"]}</td>
+                <td>${employee["address"]}</td>
+              </tr>`);
+        let variable = {table: table};
+		response.render("database", variable);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
 });

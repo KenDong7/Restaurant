@@ -10,18 +10,17 @@ h1 {
 
 body {
   height: 100%;
-  margin: 0;
+  margin: 0px;
   display: grid;
   justify-items: center;
   align-items: center;
   background-color: black;
   background-image: url("pictures/bg.jpg");
-
 }
 
 .main-holder {
   width: 100vh;
-  height: 70vh;
+  padding: 5vh;
   background-color: white;
   border-radius: 7px;
   box-shadow: 0px 0px 5px 2px black;
@@ -119,12 +118,6 @@ fieldset {
   border-radius: 8px;
 }
 
-#droplist {
-  margin-top: 2rem;
-  height: auto;
-  min-height: 70vh;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -167,6 +160,13 @@ h2 {
   margin-left: 1vh;
 }
 
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+}
+
+
 input[type=button] {
   background-color: #3a3a3a;
   border: none;
@@ -193,4 +193,16 @@ input[type=button]:hover {
 
 #back {
   width: 5vh;
+}
+
+#database_length {
+  margin-left: 1vh;
+}
+
+#database_filter {
+  margin-right: 1vh;
+}
+
+#login {
+  height: 60vh;
 }
