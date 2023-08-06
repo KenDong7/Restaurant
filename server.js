@@ -65,7 +65,10 @@ app.post("/add", async (request, response) => {
 		address: request.body.address,
 		date: request.body.date,
 		position: request.body.position,
-		salary: request.body.salary
+		salary: request.body.salary,
+        tips: 0,
+        party: 0,
+        days: 0
 	  };
     try {
         await client.connect();
@@ -114,16 +117,17 @@ app.post("/remove", async (request, response) => {
         await client.connect();
 		let idArray = request.body.cb;
 		if (idArray !== undefined && Array.isArray(idArray)) {
-			idArray.map(id => parseInt(id));
+			let newArray = idArray.map(id => parseInt(id));
 			result = await client.db(databaseAndCollection.db)
 			.collection(databaseAndCollection.collection)
-			.deleteMany({ id: { $in: idArray } });
+			.deleteMany({ id: { $in: newArray } });
 		} else if (idArray !== undefined) {
 			idArray = parseInt(idArray);
 			result = await client.db(databaseAndCollection.db)
         		.collection(databaseAndCollection.collection)
         		.deleteOne({ id: idArray });
 		}
+        console.log(result);
 		response.render("login");
     } catch (e) {
         console.error(e);
@@ -143,11 +147,14 @@ app.get("/database", async (request, response) => {
         const result = await cursor.toArray();
         result.forEach(employee => table += 
             `<tr>
-                <td>${employee["_id"]}</td>
+                <td>${employee["id"]}</td>
                 <td>${employee["name"]}</td>
                 <td>${employee["position"]}</td>
                 <td>${employee["phone"]}</td>
                 <td>${employee["address"]}</td>
+                <td class="centercell">${employee["days"]}</td>
+                <td class="centercell">${employee["party"]}</td>
+                <td class="centercell">$${employee["tips"]}</td>
               </tr>`);
         let variable = {table: table};
 		response.render("database", variable);
@@ -156,4 +163,8 @@ app.get("/database", async (request, response) => {
     } finally {
         await client.close();
     }
+});
+
+app.get("/simulation", (request, response) => { 
+    response.render("simulation");
 });

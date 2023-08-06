@@ -166,7 +166,6 @@ input[type='checkbox'] {
   margin: 5px;
 }
 
-
 input[type=button] {
   background-color: #3a3a3a;
   border: none;
@@ -205,4 +204,63 @@ input[type=button]:hover {
 
 #login {
   height: 60vh;
+}
+
+.centercell {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  
+}
+
+.box label {
+  width: 100px;
+  margin-right: 10px;
+}
+
+#taxes input {
+  width: 80px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 4vh;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.range {
+  border: none;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#generate {
+  margin-right: 8.3vh;
+}
+
+button:hover {
+  background-color: #999999;
+}
+
+input.input::-webkit-outer-spin-button,
+input.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }

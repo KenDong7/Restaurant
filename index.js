@@ -29,3 +29,18 @@ function deSelect(){
     } 
 }
 
+function generate() {
+    let min = Number(document.getElementById('minRange').value);
+    let max = Number(document.getElementById('maxRange').value);
+    
+    for (let i = 1; i < 6; i++) {
+        let input = document.getElementById('input' + i).value;
+        if (input !== '') {
+            let mult = (Math.random() * (max - min) + min) * .01 ;
+            let output = (input * mult).toFixed(2)
+            document.getElementById('output' + i).value = output;
+        }
+    }
+    
+}
+
