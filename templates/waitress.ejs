@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Waitresses</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+    <div id="white">   
+        <h1>Select Waitresses</h1>
+        <a id="home" href="/login"><img id="back" src="pictures/back.jpg"></a>
+        <div class="positions">
+            
+            <div id="left">
+                <h2 class="underline">List of Waitresses</h2>
+                <%- list %>
+            </div>
+            <div id="middle">
+                <h2 class="underline">Working</h2>
+            </div>
+            <div id="right">
+                <h2 class="underline">Party Room</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,17 +2,19 @@ const loginForm = document.getElementById("login-form");
 const loginButton = document.getElementById("login-form-submit");
 const loginErrorMsg = document.getElementById("login-error-msg");
 
-loginButton.addEventListener("click", (e) => {
+if (loginButton) {
+    loginButton.addEventListener("click", (e) => {
     e.preventDefault();
     const username = loginForm.username.value;
     const password = loginForm.password.value;
 
     if (username === "guest" && password === "guest") {
-        location.href = "login"
+      location.href = "login";
     } else {
-        loginErrorMsg.style.opacity = 1;
+      loginErrorMsg.style.opacity = 1;
     }
-})
+  });
+}
 
 function selects(){  
     var ele = document.getElementsByName('cb');  
@@ -41,6 +43,41 @@ function generate() {
             document.getElementById('output' + i).value = output;
         }
     }
-    
 }
 
+const lists = document.getElementsByClassName("list");
+const left = document.getElementById("left");
+const right = document.getElementById("right");
+const middle = document.getElementById("middle");
+
+if (lists.length > 0 && left && right) {
+  for (let list of lists) {
+    list.addEventListener("dragstart", function (e) {
+      let selected = e.target;
+
+      right.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+      right.addEventListener("drop", function (e) {
+        right.appendChild(selected);
+        selected = null;
+      });
+      left.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+      left.addEventListener("drop", function (e) {
+        left.appendChild(selected);
+        selected = null;
+      });
+      if(middle) {
+          middle.addEventListener("dragover", function (e) {
+              e.preventDefault();
+            });
+            middle.addEventListener("drop", function (e) {
+                middle.appendChild(selected);
+                selected = null;
+            });
+        }
+    });
+  }
+}

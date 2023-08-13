@@ -168,3 +168,26 @@ app.get("/database", async (request, response) => {
 app.get("/simulation", (request, response) => { 
     response.render("simulation");
 });
+
+app.get("/waitress", async (request, response) => { 
+    try {
+        await client.connect();
+        const cursor = await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find({ position: "server" });
+        const result = await cursor.toArray();
+        let list = ''
+        result.forEach(employee => list += 
+            `<div class="list" draggable="true" data-value="${employee["id"]}">
+                <span class="id">${employee["id"]}</span><img src="pictures/drag.jpg" draggable="false"> 
+                <span class="name">${employee["name"]}</span>
+            </div>`);
+            let variable = {list: list};
+        response.render("waitress", variable);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+});
+
