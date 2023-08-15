@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Waitresses</title>
+    <title>Select Manager, Chef, etc.</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="index.js"></script>
 </head>
 <body>
     <div id="white">   
-        <h1>Select Waitresses</h1>
+        <h1>Select Manager, Chef, etc.</h1>
         <a id="home" href="/login"><img id="back" src="pictures/back.jpg"></a>
         <div class="positions">
             <div id="left">
-                <h2 class="underline">List of Waitresses</h2>
+                <h2 class="underline">List of Workers</h2>
                 <%- list %>
             </div>
-            <div id="middle">
+            <div id="right">
                 <h2 class="underline">Working</h2>
             </div>
-            <div id="right">
-                <h2 class="underline">Party Room</h2>
-            </div>
         </div>
-        <button class="rightButton" type="button" onclick="next()">Next</button>
+        <button class="rightButton" type="button" onclick="submitData()">Submit</button>
     </div>
 </body>
 </html>

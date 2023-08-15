@@ -43,7 +43,7 @@ app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, ""))); 
-
+app.use(express.json());
 
 
 app.get("/", (request, response) => { 
@@ -191,3 +191,59 @@ app.get("/waitress", async (request, response) => {
     }
 });
 
+app.get("/otherWorkers", async (request, response) => { 
+    try {
+        await client.connect();
+        const cursor = await client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find({
+            $or: [
+              { position: "cashier" },
+              { position: "host" },
+              { position: "chef" },
+              { position: "manager" }
+            ]
+          });
+        const result = await cursor.toArray();
+        let list = ''
+        result.forEach(employee => list += 
+            `<div class="list" draggable="true" data-value="${employee["id"]}">
+                <span class="id">${employee["id"]}</span><img src="pictures/drag.jpg" draggable="false"> 
+                <span class="name">${employee["name"]}</span>
+            </div>`);
+            let variable = {list: list};
+        response.render("otherWorkers", variable);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+});
+
+app.post("/otherWorkers", async (request, response) => {     
+    let waitress = request.body.waitress;
+    let party =  request.body.party;
+    let workers = request.body.workers;
+    waitress = waitress.map(id => parseInt(id));
+    party = party.map(id => parseInt(id));
+    workers = workers.map(id => parseInt(id));
+
+    try {
+        await client.connect();
+		await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).updateMany(
+			{ $or: [
+                  { id: { $in: waitress } },
+                  { id: { $in: party } },
+                  { id: { $in: workers } }
+                ]},
+			{ $inc: { "days" : 1 } });
+        await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).updateMany(
+            { id: { $in: party } },
+            { $inc: { "party" : 1 } });
+	} catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+    response.json();
+});

@@ -81,3 +81,53 @@ if (lists.length > 0 && left && right) {
     });
   }
 }
+
+function next() {
+    let middle = document.getElementById("middle");
+    let waitress = middle.querySelectorAll("div.list");
+    let waitressStorage = [];
+    for (const element of waitress) {
+        waitressStorage.push(element.getAttribute("data-value"))
+    }
+    localStorage.setItem("waitress", JSON.stringify(waitressStorage));
+
+    let right = document.getElementById("right");
+    let party = right.querySelectorAll("div.list");
+    let partyStorage = [];
+    for (const element of party) {
+        partyStorage.push(element.getAttribute("data-value"))
+    }
+    localStorage.setItem("party", JSON.stringify(partyStorage));
+
+    
+    window.location.href = "otherWorkers";
+}
+
+async function submitData() {
+    let right = document.getElementById("right");
+    let workers = right.querySelectorAll("div.list");
+    let workerStorage = [];
+    for (const element of workers) {
+        workerStorage.push(element.getAttribute("data-value"));
+    }
+    let waitressStorage = JSON.parse(localStorage.getItem("waitress"));
+    let partyStorage = JSON.parse(localStorage.getItem("party"));
+
+    const data = {
+        waitress: waitressStorage,
+        party: partyStorage,
+        workers: workerStorage
+    };
+    try {
+        await fetch("http://localhost:3000/otherWorkers", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+        window.location.href = "login";
+      } catch (e) {
+        console.error(e);
+      }
+}
