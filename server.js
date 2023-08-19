@@ -119,7 +119,7 @@ app.post("/remove", async (request, response) => {
 		let idArray = request.body.cb;
 		if (idArray !== undefined && Array.isArray(idArray)) {
 			let newArray = idArray.map(id => parseInt(id));
-			result = await client.db(databaseAndCollection.db)
+			await client.db(databaseAndCollection.db)
 			.collection(databaseAndCollection.collection)
 			.deleteMany({ id: { $in: newArray } });
 		} else if (idArray !== undefined) {
@@ -128,7 +128,6 @@ app.post("/remove", async (request, response) => {
         		.collection(databaseAndCollection.collection)
         		.deleteOne({ id: idArray });
 		}
-        console.log(result);
 		response.render("login");
     } catch (e) {
         console.error(e);
