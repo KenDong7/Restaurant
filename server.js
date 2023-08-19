@@ -3,7 +3,8 @@ const http = require('http');
 const bodyParser = require("body-parser");
 const path = require('path');
 const ejs = require('ejs');
-const { MongoClient, ObjectId, ServerApiVersion } = require('mongodb');
+const { MongoClient,ServerApiVersion } = require('mongodb');
+const Double = require("mongodb").Double;
 require("dotenv").config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
@@ -66,7 +67,7 @@ app.post("/add", async (request, response) => {
 		date: request.body.date,
 		position: request.body.position,
 		salary: request.body.salary,
-        tips: 0,
+        tips: new Double(0),
         party: 0,
         days: 0
 	  };
@@ -240,6 +241,22 @@ app.post("/otherWorkers", async (request, response) => {
         await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).updateMany(
             { id: { $in: party } },
             { $inc: { "party" : 1 } });
+	} catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+    response.json();
+});
+
+app.post("/simulation", async (request, response) => {     
+    try {
+        await client.connect();
+        for (let field in request.body) {
+            await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).updateOne(
+                { id: parseInt(field) },
+                { $inc: { "tips" : parseFloat(request.body[field]) } });
+        }
 	} catch (e) {
         console.error(e);
     } finally {

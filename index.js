@@ -39,10 +39,33 @@ function generate() {
         let input = document.getElementById('input' + i).value;
         if (input !== '') {
             let mult = (Math.random() * (max - min) + min) * .01 ;
-            let output = (input * mult).toFixed(2)
+            let output = (input * mult).toFixed(2);
             document.getElementById('output' + i).value = output;
         }
     }
+}
+
+async function submitTips() {
+  const data = {};
+  for (let i = 1; i < 6; i++) {
+    let output = document.getElementById('output' + i).value;
+    let id = document.getElementById('id' + i).value;
+    if (output !== '' && id !== '') {
+      data[id] = output;
+    } 
+  }
+  try {
+    await fetch("http://localhost:3000/simulation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    window.location.href = "login";
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 const lists = document.getElementsByClassName("list");

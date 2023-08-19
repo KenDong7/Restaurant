@@ -330,3 +330,16 @@ input.input::-webkit-inner-spin-button {
   margin-right: 1vh; 
   padding: 15px 30px;
 }
+
+#submitTips {
+  margin-left: auto;
+}
+
+label.id {
+  margin-right: 0px;
+  width: 55px;
+}
+
+#taxes input.idField {
+  width: 5vh;
+}
