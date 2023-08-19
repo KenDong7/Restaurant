@@ -55,7 +55,7 @@ async function submitTips() {
     } 
   }
   try {
-    await fetch("http://localhost:3000/simulation", {
+    await fetch("/simulation", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -142,7 +142,7 @@ async function submitData() {
         workers: workerStorage
     };
     try {
-        await fetch("http://localhost:3000/otherWorkers", {
+        await fetch("/otherWorkers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

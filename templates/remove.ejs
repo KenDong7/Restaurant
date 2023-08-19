@@ -11,7 +11,7 @@
     <div class="main-holder" id="droplist">
         <h2>Select Employees To Remove</h2> 
         <a id="home" href="/login"><img id="back" src="pictures/back.jpg"></a>
-        <form action="http://localhost:3000/remove" method="post" onsubmit="return confirm('Are you sure you want to submit?');">
+        <form action="/remove" method="post" onsubmit="return confirm('Are you sure you want to submit?');">
             <input type="button" onclick='selects()' value="Select All" class="all"/>  
             <input type="button" onclick='deSelect()' value="Deselect All" class="all"/>  
             
